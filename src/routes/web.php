@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('/');
+Route::middleware('auth')->group(function () {
+    Route::get('/attendance', [AuthController::class, 'attendance/index']);
 });

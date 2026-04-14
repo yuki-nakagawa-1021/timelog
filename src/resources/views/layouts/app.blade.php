@@ -14,25 +14,27 @@
             <a class="header__logo-link" href="/">
                 <img class="header__logo" src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtechロゴ">
             </a>
-            <nav>
-                <ul class="header-nav">
-                    <li class="header-nav__item">
-                        <a class="header-nav__" href=" ">勤怠</a>
-                    </li>
-                    <li class="header-nav__item">
-                        <a class="header-nav__" href=" ">勤怠一覧</a>
-                    </li>
-                    <li class="header-nav__item">
-                        <a class="header-nav__" href=" ">申請</a>
-                    </li>
-                    <li class="header-nav__item">
-                        <form class="header-nav__form" action="/logout" method="POST">
-                            @csrf
-                            <button class="header-nav__button" type="submit">ログアウト</button>
-                        </form>
-                    </li>
-                </ul>
-            </nav>
+            @if (Auth::check())
+                <nav>
+                    <ul class="header-nav">
+                        <li class="header-nav__item">
+                            <a class="header-nav__" href=" ">勤怠</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__" href=" ">勤怠一覧</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__" href=" ">申請</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <form class="header-nav__form" action="/logout" method="POST">
+                                @csrf
+                                <button class="header-nav__button" type="submit">ログアウト</button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            @endif
         </div>
     </header>
     <main>

@@ -9,7 +9,8 @@
     <div class="login-form__heading">
         <h1>ログイン</h1>
     </div>
-    <form class="form">
+    <form class="form" action="/login" method="post">
+        @csrf
         <div class="form__group">
             <div class="form__group-content">
                 <div class="form__input--text">
