@@ -13,7 +13,7 @@
     <header class="header">
         <div class="header__inner">
             <a class="header__logo-link" href="/">
-                <img class="header__logo" src="{{ asset('img/COACHTECHヘッダーロゴ.png') }}" alt="coachtechロゴ">
+                <img class="header__logo" src="{{ asset('img/logo.png') }}" alt="coachtechロゴ">
             </a>
             @if (Auth::check())
                 <nav>
