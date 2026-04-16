@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/attendance.index') }}">
+@endsection
+
 @section('content')
 <div>
     <h2>
@@ -14,7 +18,7 @@
         @endif
     </h2>
     <p>{{ now()->format('Y年m月d日') }}</p>
-    <p>{{ now()->format('H:i:s') }}</p>
+    <p>{{ now()->format('H:i') }}</p>
     <div>
         @if($status === 'before')
             <form method="POST" action="/attendance/start">

@@ -8,6 +8,13 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('attendance/index');
+        return view('attendance.index', [
+            'status' => '未出勤'
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+
     }
 }
