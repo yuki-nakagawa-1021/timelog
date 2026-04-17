@@ -6,6 +6,9 @@
     margin: 0 auto;
     padding: 20px 15px;
     max-width: 1230px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header__logo {
@@ -17,8 +20,8 @@
 
 .header-nav {
     display: flex;
+    gap: 20px;
     align-items: center;
-    justify-content: space-between;
 }
 
 .header-nav__link {

@@ -19,13 +19,13 @@
                 <nav>
                     <ul class="header-nav">
                         <li class="header-nav__item">
-                            <a class="header-nav__" href=" ">勤怠</a>
+                            <a class="header-nav__link" href=" ">勤怠</a>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__" href=" ">勤怠一覧</a>
+                            <a class="header-nav__link" href=" ">勤怠一覧</a>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__" href=" ">申請</a>
+                            <a class="header-nav__link" href=" ">申請</a>
                         </li>
                         <li class="header-nav__item">
                             <form class="header-nav__form" action="/logout" method="POST">
