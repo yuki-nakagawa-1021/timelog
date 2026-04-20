@@ -11,11 +11,21 @@ class RegisterRequest extends FormRequest
      *
      * @return bool
      */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
             'user_name' => ['required', 'max:20'],
-            'email' => ['required', 'email'],
+            'email' => ['required'],
             'password' => ['required', 'min:8'],
             'password_confirmation' => ['required', 'min:8', 'same:password'],
         ];
@@ -26,7 +36,7 @@ class RegisterRequest extends FormRequest
         return[
             'user_name.required' => 'お名前を入力してください',
             'email.required' => 'メールアドレスを入力してください',
-            'email.email' => 'メールアドレスはメール形式で入力してください',
+            'email.email' => 'メールアドレスをメール形式で入力してください',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは８文字以上で入力してください',
             'password_confirmation.same' => 'パスワードと一致しません',

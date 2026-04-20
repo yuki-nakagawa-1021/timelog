@@ -27,7 +27,6 @@
                     <button class="btn_start" type="submit">出勤</button>
                 </form>
             @endif
-
             @if($status === 'working')
                 <form method="POST" action="/attendance/break/start">
                     @csrf
@@ -38,7 +37,6 @@
                     <button class="btn_end" type="submit">退勤</button>
                 </form>
             @endif
-
             @if($status === 'break')
                 <form method="POST" action="/attendance/break/end">
                     @csrf
