@@ -14,17 +14,16 @@ class AttendancesTableSeeder extends Seeder
         $attendanceId = DB::table('attendances')->insertGetId([
             'user_id' => $user->id,
             'date' => now()->format('Y-m-d'),
-            'clock_in' => '09:00:00',
-            'clock_out' => '18:00:00',
-            'status' => '退勤済',
+            'clock_in' => now()->format('Y-m-d') . ' 09:00:00',
+            'clock_out' => now()->format('Y-m-d') . ' 18:00:00',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('breaks')->insert([
+        DB::table('break_times')->insert([
             'attendance_id' => $attendanceId,
-            'break_start' => '12:00:00',
-            'break_end' => '13:00:00',
+            'break_start' => now()->format('Y-m-d') . ' 12:00:00',
+            'break_end' => now()->format('Y-m-d') . ' 13:00:00',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
