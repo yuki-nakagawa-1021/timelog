@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/attendance', [AuthController::class, 'index']);

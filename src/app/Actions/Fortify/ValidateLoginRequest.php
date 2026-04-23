@@ -10,7 +10,6 @@ class ValidateLoginRequest
 {
     public function __invoke(Request $request, $next)
     {
-        dd('ここ通ってる？');
         $formRequest = app(LoginRequest::class);
 
         Validator::make(
