@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -110,5 +111,39 @@ class AttendanceController extends Controller
         }
 
         return redirect('/attendance');
+    }
+
+    public function list(Request $request)
+    {
+        $month = $request->input('month', Carbon::now()->format('Y-m'));
+
+        $start = Carbon::parse($month)->startOfMonth();
+        $end = Carbon::parse($month)->endOfMonth();
+
+        $attendances = Attendance::where('user_id', Auth::id())
+            ->whereBetween('date', [$start, $end])
+            ->get()
+            ->keyBy(function ($item) {
+                return Carbon::parse($item->date)->format('Y-m-d');
+            });
+
+        $dates = [];
+        $current = $start->copy();
+
+        while ($current <= $end) {
+            $dates[] = $current->copy();
+            $current->addDay();
+        }
+
+        return view('attendance.list', compact('attendances', 'dates', 'month'));
+    }
+
+    public function show($date)
+    {
+        $attendance = Attendance::where('user_id', Auth::id())
+            ->whereDate('date', $date)
+            ->first();
+
+        return view('attendance.detail', compact('attendance', 'date'));
     }
 }
