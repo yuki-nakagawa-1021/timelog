@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Http\Requests\AttendanceRequest;
 
 class AttendanceController extends Controller
 {
@@ -140,10 +141,43 @@ class AttendanceController extends Controller
 
     public function show($date)
     {
-        $attendance = Attendance::where('user_id', Auth::id())
+        $attendance = Attendance::with('breakTimes')
+            ->where('user_id', Auth::id())
             ->whereDate('date', $date)
             ->first();
 
         return view('attendance.detail', compact('attendance', 'date'));
+    }
+
+    public function update(AttendanceRequest $request, $date)
+    {
+        $attendance = Attendance::firstOrCreate([
+            'user_id' => Auth::id(),
+            'date' => $date
+        ]);
+
+        $attendance->update([
+            'clock_in' => $request->clock_in,
+            'clock_out' => $request->clock_out,
+            'note' => $request->note,
+            'status' => 'pending'
+        ]);
+
+        $attendance->breakTimes()->delete();
+
+        if ($request->break_start) {
+            foreach ($request->break_start as $i => $start) {
+                $end = $request->break_end[$i] ?? null;
+
+                if ($start && $end) {
+                    $attendance->breakTimes()->create([
+                        'break_start' => $start,
+                        'break_end' => $end,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->back();
     }
 }
