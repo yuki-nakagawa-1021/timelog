@@ -14,6 +14,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/attendance/break/end', [AttendanceController::class, 'breakEnd']);
     Route::get('/attendance/list', [AttendanceController::class, 'list']);
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show']);
-    Route::get('/attendance/{date}', [AttendanceController::class, 'show']);
-    Route::post('/attendance/{date}', [AttendanceController::class, 'update']);
+    Route::post('/attendance/request/{id}', [AttendanceController::class, 'requestUpdate']);
+    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'requestList']);
 });

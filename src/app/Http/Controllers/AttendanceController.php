@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\AttendanceRequest as AttendanceRequestModel;
+use App\Models\AttendanceRequestItem;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Requests\AttendanceRequest;
@@ -139,12 +141,13 @@ class AttendanceController extends Controller
         return view('attendance.list', compact('attendances', 'dates', 'month'));
     }
 
-    public function show($date)
+    public function show($id)
     {
         $attendance = Attendance::with('breakTimes')
             ->where('user_id', Auth::id())
-            ->whereDate('date', $date)
-            ->first();
+            ->find($id);
+
+        $date = $attendance ? $attendance->date : null;
 
         return view('attendance.detail', compact('attendance', 'date'));
     }
@@ -179,5 +182,51 @@ class AttendanceController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function requestUpdate(Request $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        $attendanceRequest = AttendanceRequestModel::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $attendance->id,
+            'reason' => $request->note ?? '修正申請',
+        ]);
+
+        if ($request->clock_in != $attendance->clock_in) {
+            AttendanceRequestItem::create([
+                'attendance_request_id' => $attendanceRequest->id,
+                'field' => 'clock_in',
+                'old_value' => $attendance->clock_in,
+                'new_value' => $request->clock_in,
+            ]);
+        }
+
+        if ($request->clock_out != $attendance->clock_out) {
+            AttendanceRequestItem::create([
+                'attendance_request_id' => $attendanceRequest->id,
+                'field' => 'clock_out',
+                'old_value' => $attendance->clock_out,
+                'new_value' => $request->clock_out,
+            ]);
+        }
+
+        return redirect('/stamp_correction_request/list');
+    }
+
+    public function requestList()
+    {
+        $pendingRequests = AttendanceRequest::with(['attendance', 'items'])
+            ->where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->get();
+
+        $approvedRequests = AttendanceRequest::with(['attendance', 'items'])
+            ->where('user_id', Auth::id())
+            ->where('status', 'approved')
+            ->get();
+
+        return view('attendance.request_list', compact('pendingRequests', 'approvedRequests'));
     }
 }

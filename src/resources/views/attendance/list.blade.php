@@ -85,7 +85,11 @@
                             @endif
                         </td>
                         <td class="table-cell">
-                            <a class="detail-link" href="/attendance/detail/{{ $date->format('Y-m-d') }}">詳細</a>
+                            @if(!empty($attendance))
+                                <a href="/attendance/detail/{{ $attendance->id }}" class="detail-link">
+                                    詳細
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

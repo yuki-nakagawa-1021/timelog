@@ -7,12 +7,14 @@
 @section('content')
 <div class="detail-wrapper">
     <h2 class="detail-title">勤怠詳細</h2>
-    <form method="POST" action="/attendance/{{ $date }}">
+    <form method="POST" action="/attendance/request/{{ $attendance->id }}">
         @csrf
         <div class="detail-card">
             <div class="detail-row">
                 <div class="detail-label">名前</div>
-                <div class="detail-value">{{ Auth::user()->name }}</div>
+                <div class="detail-value">
+                    {{ Auth::user()->name }}
+                </div>
             </div>
             <div class="detail-row">
                 <div class="detail-label">日付</div>
@@ -74,7 +76,9 @@
             </div>
         </div>
         @if(optional($attendance)->status === 'pending')
-            <p class="pending-message">承認待ちのため修正はできません。</p>
+            <p class="pending-message">
+                承認待ちのため修正はできません。
+            </p>
         @else
             <div class="button-area">
                 <button class="submit-btn">修正</button>
