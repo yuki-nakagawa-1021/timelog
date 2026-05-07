@@ -13,8 +13,8 @@
         <div class="month-nav">
             <a class="month-btn" href="/attendance/list?month={{ \Carbon\Carbon::parse($month)->subMonth()->format('Y-m') }}">← 前月</a>
             <div class="month-display">
-                <form method="GET" action="/attendance/list" class="month-form">
-                    <input class="month-input" type="month" name="month" value="{{ $month }}" onchange="this.form.submit()">
+                <form method="GET" action="/admin/attendance/list" class="date-form">
+                    <input class="date-input" type="date" name="date" value="{{ $date }}" onchange="this.form.submit()">
                 </form>
                 {{ \Carbon\Carbon::parse($month)->format('Y/m') }}
             </div>

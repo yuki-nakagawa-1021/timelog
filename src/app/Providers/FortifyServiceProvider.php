@@ -37,11 +37,7 @@ class FortifyServiceProvider extends ServiceProvider
                 return null;
             }
 
-            if ($request->is('admin/login')) {
-                return $user->role === 'admin' ? $user : null;
-            }
-
-            return $user;
+            return $user; // ← ここ重要（admin判定しない）
         });
 
         Fortify::createUsersUsing(CreateNewUser::class);
@@ -57,6 +53,12 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        Fortify::redirects('login', function () {
+            return auth()->user()->role === 'admin'
+                ? '/admin/attendance/list'
+                : '/attendance';
         });
     }
 }
