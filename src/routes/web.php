@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
-    Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show']);
+    Route::get('/attendance/detail/{id}', [AdminAttendanceController::class, 'show']);
     Route::post('/attendance/{id}', [AdminAttendanceController::class, 'update']);
     Route::get('/staff/list', [StaffController::class, 'index']);
 });

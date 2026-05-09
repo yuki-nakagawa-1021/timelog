@@ -15,27 +15,25 @@
             <a class="header__logo-link" href="/">
                 <img class="header__logo" src="{{ asset('img/logo.png') }}" alt="coachtechロゴ">
             </a>
-            @if (Auth::check())
-                <nav>
-                    <ul class="header-nav">
-                        <li class="header-nav__item">
+            @auth
+                @if(!request()->is('login') && !request()->is('admin/login'))
+                    <nav class="header-nav">
+                        @if(auth()->user()->role === 'admin')
+                            <a class="header-nav__link" href="/admin/attendance/list">勤怠一覧</a>
+                            <a class="header-nav__link" href="/admin/staff/list">スタッフ一覧</a>
+                            <a class="header-nav__link" href="/stamp_correction_request/list">申請一覧</a>
+                        @else
                             <a class="header-nav__link" href="/attendance">勤怠</a>
-                        </li>
-                        <li class="header-nav__item">
                             <a class="header-nav__link" href="/attendance/list">勤怠一覧</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href=" ">申請</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <form class="header-nav__form" action="/logout" method="POST">
-                                @csrf
-                                <button class="header-nav__button" type="submit">ログアウト</button>
-                            </form>
-                        </li>
-                    </ul>
-                </nav>
-            @endif
+                            <a class="header-nav__link" href="/stamp_correction_request/list">申請</a>
+                        @endif
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit">ログアウト</button>
+                        </form>
+                    </nav>
+                @endif
+            @endauth
         </div>
     </header>
     <main>

@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
 use App\Models\User;
 use App\Actions\Fortify\CreateNewUser;
+use Laravel\Fortify\Contracts\LogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -59,6 +60,17 @@ class FortifyServiceProvider extends ServiceProvider
             return auth()->user()->role === 'admin'
                 ? '/admin/attendance/list'
                 : '/attendance';
+        });
+
+        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
+            public function toResponse($request)
+            {
+                if ($request->user() && $request->user()->role === 'admin') {
+                    return redirect('/admin/login');
+                }
+
+                return redirect('/login');
+            }
         });
     }
 }
