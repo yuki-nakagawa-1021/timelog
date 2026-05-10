@@ -35,4 +35,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/attendance/detail/{id}', [AdminAttendanceController::class, 'show']);
     Route::post('/attendance/{id}', [AdminAttendanceController::class, 'update']);
     Route::get('/staff/list', [StaffController::class, 'index']);
+    Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
+    Route::post('/attendance/staff/{id}', [AdminAttendanceController::class, 'update']);
+    Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendance']);
 });

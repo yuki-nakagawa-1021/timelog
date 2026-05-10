@@ -1,0 +1,99 @@
+body {
+    background: #e8e8e8;
+}
+
+.staff-attendance-wrapper {
+    width: 75%;
+    margin: 50px auto;
+    padding-bottom: 60px;
+}
+
+.staff-attendance-title {
+    font-size: 30px;
+    font-weight: bold;
+    border-left: 6px solid #000;
+    padding-left: 15px;
+    margin-bottom: 50px;
+}
+
+.month-nav {
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 30px;
+    margin-bottom: 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+.month-link {
+    text-decoration: none;
+    color: #737373;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.month-form {
+    display: flex;
+    align-items: center;
+}
+
+.month-input {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: inherit;
+    color: #000;
+}
+
+.staff-attendance-table {
+    width: 100%;
+    background: #fff;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.staff-attendance-table th {
+    padding: 18px;
+    color: #737373;
+    background: #fff;
+    border-bottom: 2px solid #e5e5e5;
+    font-weight: bold;
+}
+
+.staff-attendance-table td {
+    padding: 18px;
+    text-align: center;
+    color: #737373;
+    border-bottom: 1px solid #e5e5e5;
+    font-weight: bold;
+}
+
+.detail-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.csv-button-area {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.csv-button {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
