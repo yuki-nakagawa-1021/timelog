@@ -33,12 +33,20 @@ class FortifyServiceProvider extends ServiceProvider
             )->validate();
 
             $user = User::where('email', $request->email)->first();
+                if (! $user || ! Hash::check($request->password, $user->password)) {
+                    return null;
+                }
+                if ($request->is('admin/login')) {
+                    if ($user->role !== 'admin') {
+                        return null;
+                    }
+                    session(['is_admin_login' => true]);
 
-            if (! $user || ! Hash::check($request->password, $user->password)) {
-                return null;
-            }
+                    return $user;
+                }
 
-            return $user; // ← ここ重要（admin判定しない）
+                session()->forget('is_admin_login');
+                return $user;
         });
 
         Fortify::createUsersUsing(CreateNewUser::class);
@@ -57,9 +65,11 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::redirects('login', function () {
-            return auth()->user()->role === 'admin'
-                ? '/admin/attendance/list'
-                : '/attendance';
+            if (session('is_admin_login')) {
+                return '/admin/attendance/list';
+            }
+
+            return '/attendance';
         });
 
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {

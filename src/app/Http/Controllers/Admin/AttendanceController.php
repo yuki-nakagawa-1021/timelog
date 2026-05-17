@@ -167,4 +167,19 @@ class AttendanceController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function requestList(Request $request)
+    {
+        $status = $request->input('status', 'pending');
+
+        $requests = Attendance::with('user')
+            ->where('status', $status)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view(
+            'admin.stamp_correction_request.list',
+            compact('requests', 'status')
+        );
+    }
 }

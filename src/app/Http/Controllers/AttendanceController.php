@@ -8,7 +8,6 @@ use App\Models\AttendanceRequest as AttendanceRequestModel;
 use App\Models\AttendanceRequestItem;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Http\Requests\AttendanceRequest;
 
 class AttendanceController extends Controller
 {
@@ -152,7 +151,7 @@ class AttendanceController extends Controller
         return view('attendance.detail', compact('attendance', 'date'));
     }
 
-    public function update(AttendanceRequest $request, $date)
+    public function update(Request $request, $date)
     {
         $attendance = Attendance::firstOrCreate([
             'user_id' => Auth::id(),
@@ -217,12 +216,12 @@ class AttendanceController extends Controller
 
     public function requestList()
     {
-        $pendingRequests = AttendanceRequest::with(['attendance', 'items'])
+        $pendingRequests = AttendanceRequestModel::with(['attendance', 'items'])
             ->where('user_id', Auth::id())
             ->where('status', 'pending')
             ->get();
 
-        $approvedRequests = AttendanceRequest::with(['attendance', 'items'])
+        $approvedRequests = AttendanceRequestModel::with(['attendance', 'items'])
             ->where('user_id', Auth::id())
             ->where('status', 'approved')
             ->get();
