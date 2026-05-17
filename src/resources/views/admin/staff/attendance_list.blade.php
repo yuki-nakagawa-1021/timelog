@@ -87,7 +87,9 @@
         </tbody>
     </table>
     <div class="csv-button-area">
-        <button class="csv-button">CSV出力</button>
+        <a href="/admin/attendance/staff/{{ $user->id }}/csv?month={{ $month }}" class="csv-button">
+            CSV出力
+        </a>
     </div>
 </div>
 

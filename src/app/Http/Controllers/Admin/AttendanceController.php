@@ -78,4 +78,93 @@ class AttendanceController extends Controller
 
         return redirect()->back();
     }
+
+    public function exportCsv(Request $request, $id)
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+
+        $user = User::findOrFail($id);
+
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', $id)
+            ->whereYear('date', Carbon::parse($month)->year)
+            ->whereMonth('date', Carbon::parse($month)->month)
+            ->get();
+
+        $csvData = [];
+
+        $csvData[] = [
+            '日付',
+            '出勤',
+            '退勤',
+            '休憩',
+            '合計'
+        ];
+
+        foreach ($attendances as $attendance) {
+
+            $breakMinutes = $attendance->breakTimes->sum(function($break){
+
+                if ($break->break_start && $break->break_end) {
+
+                    return Carbon::parse($break->break_end)
+                        ->diffInMinutes(
+                            Carbon::parse($break->break_start)
+                        );
+                }
+
+                return 0;
+            });
+
+            $workMinutes = 0;
+
+            if ($attendance->clock_in && $attendance->clock_out) {
+
+                $workMinutes =
+                    Carbon::parse($attendance->clock_out)
+                        ->diffInMinutes(
+                            Carbon::parse($attendance->clock_in)
+                        ) - $breakMinutes;
+            }
+
+            $csvData[] = [
+                Carbon::parse($attendance->date)->format('Y-m-d'),
+                $attendance->clock_in
+                    ? Carbon::parse($attendance->clock_in)->format('H:i')
+                    : '',
+                $attendance->clock_out
+                    ? Carbon::parse($attendance->clock_out)->format('H:i')
+                    : '',
+                floor($breakMinutes / 60) . ':' .
+                    str_pad($breakMinutes % 60, 2, '0', STR_PAD_LEFT),
+                floor($workMinutes / 60) . ':' .
+                    str_pad($workMinutes % 60, 2, '0', STR_PAD_LEFT),
+            ];
+        }
+
+        $fileName =
+            $user->name . '_' . $month . '_attendance.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' =>
+                'attachment; filename="' . $fileName . '"',
+        ];
+
+        $callback = function() use ($csvData) {
+
+            $file = fopen('php://output', 'w');
+
+            foreach ($csvData as $row) {
+
+                mb_convert_variables('SJIS-win', 'UTF-8', $row);
+
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
