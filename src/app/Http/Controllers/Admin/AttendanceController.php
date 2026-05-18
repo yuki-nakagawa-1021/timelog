@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Models\AttendanceRequest;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
@@ -169,17 +170,68 @@ class AttendanceController extends Controller
     }
 
     public function requestList(Request $request)
-    {
-        $status = $request->input('status', 'pending');
+        {
+            $status = $request->input('status', 'pending');
 
-        $requests = Attendance::with('user')
+            $requests = AttendanceRequest::with([
+                'user',
+                'attendance'
+            ])
             ->where('status', $status)
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
+            return view(
+                'admin.stamp_correction_request.list',
+                compact('requests', 'status')
+            );
+        }
+
+    public function approve($id)
+    {
+        $attendanceRequest = AttendanceRequest::with('items')
+            ->findOrFail($id);
+
+        $attendance = Attendance::findOrFail(
+            $attendanceRequest->attendance_id
+        );
+
+        foreach ($attendanceRequest->items as $item) {
+
+            if ($item->field === 'clock_in') {
+
+                $attendance->clock_in =
+                    Carbon::parse($attendance->date . ' ' . $item->new_value);
+
+            } elseif ($item->field === 'clock_out') {
+
+                $attendance->clock_out =
+                    Carbon::parse($attendance->date . ' ' . $item->new_value);
+            }
+        }
+
+        $attendance->status = 'approved';
+
+        $attendance->save();
+
+        $attendanceRequest->update([
+            'status' => 'approved'
+        ]);
+
+        return redirect('/admin/stamp_correction_request/list');
+    }
+
+    public function showRequest($id)
+    {
+        $request = AttendanceRequest::with([
+            'user',
+            'attendance',
+            'items'
+        ])->findOrFail($id);
+
         return view(
-            'admin.stamp_correction_request.list',
-            compact('requests', 'status')
+            'admin.stamp_correction_request.approve',
+            compact('request')
         );
     }
 }

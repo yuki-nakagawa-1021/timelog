@@ -54,7 +54,9 @@
                     <td class="table-data">{{ floor($breakMinutes / 60) }}:{{ str_pad($breakMinutes % 60, 2, '0', STR_PAD_LEFT) }}</td>
                     <td class="table-data">{{ floor($workMinutes / 60) }}:{{ str_pad($workMinutes % 60, 2, '0', STR_PAD_LEFT) }}</td>
                     <td class="table-data">
-                        <a href="/admin/attendance/detail/{{ $attendance->id }}" class="detail-link">詳細</a>
+                        <a href="/admin/attendance/detail/{{ $attendance->id }}">
+                            詳細
+                        </a>
                     </td>
                 </tr>
             @endforeach

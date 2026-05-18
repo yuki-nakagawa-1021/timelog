@@ -31,10 +31,10 @@
                 <div class="detail-label">出勤・退勤</div>
                 <div class="detail-value">
                     <input type="time" name="clock_in" class="time-input"
-                        value="{{ $attendance && $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}">
+                        value="{{ $requestedClockIn ?? ($attendance && $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '') }}">
                     <span class="time-separator">〜</span>
                     <input type="time" name="clock_out" class="time-input"
-                        value="{{ $attendance && $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}">
+                        value="{{ $requestedClockOut ?? ($attendance && $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '') }}">
                 </div>
             </div>
             @php
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        @if(optional($attendance)->status === 'pending')
+        @if($pendingRequest)
             <p class="pending-message">
                 承認待ちのため修正はできません。
             </p>

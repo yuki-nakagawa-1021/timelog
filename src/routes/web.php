@@ -40,4 +40,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendance']);
     Route::get('/attendance/staff/{id}/csv', [AdminAttendanceController::class, 'exportCsv']);
     Route::get('/stamp_correction_request/list', [AdminAttendanceController::class, 'requestList']);
+    Route::get('/stamp_correction_request/approve/{id}',[AdminAttendanceController::class, 'showRequest']);
+    Route::post('/stamp_correction_request/approve/{id}',[AdminAttendanceController::class, 'approve']);
+    Route::get('/stamp_correction_request/approve/{id}',[AdminAttendanceController::class, 'showRequest']);
 });

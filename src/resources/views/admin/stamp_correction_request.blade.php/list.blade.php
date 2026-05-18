@@ -10,10 +10,10 @@
 
     <h2 class="request-title">申請一覧</h2>
     <div class="request-tab">
-        <a href="/stamp_correction_request/list?status=pending" class="{{ $status === 'pending' ? 'active-tab' : '' }}">
+        <a href="/admin/stamp_correction_request/list?status=pending" class="{{ $status === 'pending' ? 'active-tab' : '' }}">
             承認待ち
         </a>
-        <a href="/stamp_correction_request/list?status=approved" class="{{ $status === 'approved' ? 'active-tab' : '' }}">
+        <a href="/admin/stamp_correction_request/list?status=approved" class="{{ $status === 'approved' ? 'active-tab' : '' }}">
             承認済み
         </a>
     </div>
@@ -38,16 +38,16 @@
                         {{ $request->user->name }}
                     </td>
                     <td>
-                        {{ \Carbon\Carbon::parse($request->date)->format('Y/m/d') }}
+                        {{ \Carbon\Carbon::parse($request->attendance->date)->format('Y/m/d') }}
                     </td>
                     <td>
-                        {{ $request->note }}
+                        {{ $request->reason }}
                     </td>
                     <td>
                         {{ $request->updated_at->format('Y/m/d') }}
                     </td>
                     <td>
-                        <a href="/admin/attendance/{{ $request->id }}" class="detail-link">
+                        <a href="/admin/stamp_correction_request/approve/{{ $request->id }}" class="detail-link">
                             詳細
                         </a>
                     </td>

@@ -148,7 +148,38 @@ class AttendanceController extends Controller
 
         $date = $attendance ? $attendance->date : null;
 
-        return view('attendance.detail', compact('attendance', 'date'));
+        $request = AttendanceRequestModel::with('items')
+            ->where('attendance_id', $id)
+            ->where('status', 'pending')
+            ->latest()
+            ->first();
+
+        $requestedClockIn = null;
+        $requestedClockOut = null;
+
+        if ($request) {
+
+            foreach ($request->items as $item) {
+
+                if ($item->field === 'clock_in') {
+                    $requestedClockIn = $item->new_value;
+                }
+
+                if ($item->field === 'clock_out') {
+                    $requestedClockOut = $item->new_value;
+                }
+            }
+        }
+
+        return view(
+            'attendance.detail',
+            compact(
+                'attendance',
+                'date',
+                'requestedClockIn',
+                'requestedClockOut'
+            )
+        );
     }
 
     public function update(Request $request, $date)

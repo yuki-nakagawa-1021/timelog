@@ -21,12 +21,33 @@
                 {{ \Carbon\Carbon::parse($request->attendance->date)->format('Y年 n月j日') }}
             </div>
         </div>
+        @php
+            $clockIn = $request->attendance->clock_in
+                ? \Carbon\Carbon::parse($request->attendance->clock_in)->format('H:i')
+                : '';
+
+            $clockOut = $request->attendance->clock_out
+                ? \Carbon\Carbon::parse($request->attendance->clock_out)->format('H:i')
+                : '';
+
+            foreach ($request->items as $item) {
+
+                if ($item->field === 'clock_in') {
+                    $clockIn = $item->new_value;
+                }
+
+                if ($item->field === 'clock_out') {
+                    $clockOut = $item->new_value;
+                }
+            }
+        @endphp
+
         <div class="detail-row">
             <div class="detail-label">出勤・退勤</div>
             <div class="detail-value">
-                {{ $request->attendance->clock_in ? \Carbon\Carbon::parse($request->attendance->clock_in)->format('H:i') : '' }}
+                {{ $clockIn }}
                 〜
-                {{ $request->attendance->clock_out ? \Carbon\Carbon::parse($request->attendance->clock_out)->format('H:i') : '' }}
+                {{ $clockOut }}
             </div>
         </div>
         @foreach($request->attendance->breakTimes as $i => $break)
@@ -52,5 +73,6 @@
         ※承認待ちのため修正はできません。
     </p>
     @endforeach
+
 </div>
 @endsection
