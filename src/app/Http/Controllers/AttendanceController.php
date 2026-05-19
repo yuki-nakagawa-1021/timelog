@@ -171,13 +171,16 @@ class AttendanceController extends Controller
             }
         }
 
+        $pendingRequest = $request;
+
         return view(
             'attendance.detail',
             compact(
                 'attendance',
                 'date',
                 'requestedClockIn',
-                'requestedClockOut'
+                'requestedClockOut',
+                'pendingRequest'
             )
         );
     }
@@ -247,12 +250,12 @@ class AttendanceController extends Controller
 
     public function requestList()
     {
-        $pendingRequests = AttendanceRequestModel::with(['attendance', 'items'])
+        $pendingRequests = AttendanceRequestModel::with(['attendance', 'items', 'user'])
             ->where('user_id', Auth::id())
             ->where('status', 'pending')
             ->get();
 
-        $approvedRequests = AttendanceRequestModel::with(['attendance', 'items'])
+        $approvedRequests = AttendanceRequestModel::with(['attendance', 'items', 'user'])
             ->where('user_id', Auth::id())
             ->where('status', 'approved')
             ->get();
