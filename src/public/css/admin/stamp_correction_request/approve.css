@@ -1,0 +1,66 @@
+.detail-wrapper {
+    max-width: 900px;
+    margin: 60px auto;
+}
+
+.detail-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    border-left: 8px solid #000;
+}
+
+.detail-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.detail-row {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-label {
+    width: 35%;
+    background: #fafafa;
+    padding: 24px;
+    font-weight: bold;
+    color: #666;
+}
+
+.detail-value {
+    width: 65%;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.button-area {
+    margin-top: 40px;
+    text-align: right;
+}
+
+.approve-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 48px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.approve-btn:hover {
+    opacity: 0.8;
+}
+
+.approved-message {
+    margin-top: 40px;
+    text-align: right;
+    color: #666;
+    font-weight: bold;
+    font-size: 18px;
+}

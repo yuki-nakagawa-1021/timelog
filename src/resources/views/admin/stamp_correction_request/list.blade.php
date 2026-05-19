@@ -47,7 +47,7 @@
                         {{ $request->updated_at->format('Y/m/d') }}
                     </td>
                     <td>
-                        <a href="/admin/stamp_correction_request/approve/{{ $request->id }}" class="detail-link">
+                        <a href="/admin/stamp_correction_request/approve/{{ $request->id }}">
                             詳細
                         </a>
                     </td>
