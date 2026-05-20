@@ -60,7 +60,7 @@ APIキーの設定は各自でお願いします。
 
 ## ER図
 
-![ER図](er-diagram.svg)
+![ER図](er-diagram.pnfg)
 
 ## URL
 
