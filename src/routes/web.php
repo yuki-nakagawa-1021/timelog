@@ -34,6 +34,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm']);
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index']);

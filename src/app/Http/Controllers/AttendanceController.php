@@ -217,7 +217,7 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
 
-    public function requestUpdate(Request $request, $id)
+    public function requestUpdate(AttendanceRequest $request, $id)
     {
         $attendance = Attendance::findOrFail($id);
 
@@ -225,6 +225,7 @@ class AttendanceController extends Controller
             'user_id' => auth()->id(),
             'attendance_id' => $attendance->id,
             'reason' => $request->note ?? '修正申請',
+            'status' => 'pending',
         ]);
 
         if ($request->clock_in != $attendance->clock_in) {

@@ -47,7 +47,6 @@
         @if($status === 'done')
             <p class="attendance-message">お疲れ様でした。</p>
         @endif
-
     </div>
 </div>
 @endsection
