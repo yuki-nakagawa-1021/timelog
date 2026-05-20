@@ -8,7 +8,7 @@
 <div class="verify-email">
     <div class="verify-email__content">
         <p class="verify-email__text">登録していただいたメールアドレスに認証メールを送付しました。</p>
-        <p class="verify-email__text">メール認証を完了して下さい。</p>
+        <p class="verify-email__text">メール認証を完了してください。</p>
         <div class="verify-email__button-wrapper">
             <a class="verify-email__link" href="http://localhost:8025" target="_blank" rel="noopener noreferrer">認証はこちらから</a>
         </div>

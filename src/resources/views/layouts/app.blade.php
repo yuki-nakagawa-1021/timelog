@@ -16,24 +16,28 @@
                 <img class="header__logo" src="{{ asset('img/logo.png') }}" alt="coachtechロゴ">
             </a>
             @auth
-                @if(!request()->is('login') && !request()->is('admin/login'))
-                    <nav class="header-nav">
-                        @if(auth()->user()->role === 'admin')
-                            <a class="header-nav__link" href="/admin/attendance/list">勤怠一覧</a>
-                            <a class="header-nav__link" href="/admin/staff/list">スタッフ一覧</a>
-                            <a class="header-nav__link" href="/admin/stamp_correction_request/list">申請一覧</a>
-                        @else
-                            <a class="header-nav__link" href="/attendance">勤怠</a>
-                            <a class="header-nav__link" href="/attendance/list">勤怠一覧</a>
-                            <a class="header-nav__link" href="/stamp_correction_request/list">申請</a>
-                        @endif
-                        <form action="/logout" method="POST">
+            @if(!request()->is('login') && !request()->is('admin/login'))
+                <nav class="header-nav">
+                    @if(auth()->user()->role === 'admin')
+                        <a class="header-nav__link" href="/admin/attendance/list">勤怠一覧</a>
+                        <a class="header-nav__link" href="/admin/staff/list">スタッフ一覧</a>
+                        <a class="header-nav__link" href="/admin/stamp_correction_request/list">申請一覧</a>
+                        <form action="/admin/logout" method="POST">
                             @csrf
                             <button type="submit">ログアウト</button>
                         </form>
-                    </nav>
-                @endif
-            @endauth
+                    @else
+                        <a class="header-nav__link" href="/attendance">勤怠</a>
+                        <a class="header-nav__link" href="/attendance/list">勤怠一覧</a>
+                        <a class="header-nav__link" href="/stamp_correction_request/list">申請</a>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button class=header-nav__button type="submit">ログアウト</button>
+                        </form>
+                    @endif
+                </nav>
+            @endif
+        @endauth
         </div>
     </header>
     <main>

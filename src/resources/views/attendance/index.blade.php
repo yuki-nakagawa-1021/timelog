@@ -28,21 +28,25 @@
                 </form>
             @endif
             @if($status === 'working')
-                <form method="POST" action="/attendance/break/start">
-                    @csrf
-                    <button class="btn-break_start" type="submit">休憩入</button>
-                </form>
-                <form method="POST" action="/attendance/end">
-                    @csrf
-                    <button class="btn_end" type="submit">退勤</button>
-                </form>
+                <div class="attendance-actions-row">
+                    <form method="POST" action="/attendance/end">
+                        @csrf
+                        <button class="btn_end" type="submit">退勤</button>
+                    </form>
+                    <form method="POST" action="/attendance/break/start">
+                        @csrf
+                        <button class="btn-break_start" type="submit">休憩入</button>
+                    </form>
+                </div>
             @endif
             @if($status === 'break')
+            <div class="attendance-actions-row">
                 <form method="POST" action="/attendance/break/end">
                     @csrf
-                    <button class="btn-break_end" type="submit">休憩戻</button>
+                    <button class="btn-break" type="submit">休憩戻</button>
                 </form>
-            @endif
+            </div>
+        @endif
         </div>
         @if($status === 'done')
             <p class="attendance-message">お疲れ様でした。</p>
